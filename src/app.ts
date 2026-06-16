@@ -41,6 +41,13 @@ export async function bootstrapApp(root: HTMLElement): Promise<void> {
           <span>Orientation</span>
           <select id="orientationSelect" class="input"></select>
         </label>
+        <div class="action-row">
+          <button id="exportButton" class="btn-secondary" type="button">Exporter JSON</button>
+          <label class="btn-secondary import-label">
+            Importer JSON
+            <input id="importInput" type="file" accept="application/json" hidden>
+          </label>
+        </div>
       </header>
       <section class="panel graph-panel">
         <div class="panel-header"><h2>Plan d'études</h2></div>
@@ -53,6 +60,24 @@ export async function bootstrapApp(root: HTMLElement): Promise<void> {
   const orientationSelect = root.querySelector<HTMLSelectElement>('#orientationSelect')!
   const graphMount = root.querySelector<HTMLDivElement>('#courseGraph')!
   const semesterView = root.querySelector<HTMLElement>('#semesterView')!
+  const exportButton = root.querySelector<HTMLButtonElement>('#exportButton')!
+  const importInput = root.querySelector<HTMLInputElement>('#importInput')!
+
+  exportButton.addEventListener('click', () => exportJson(state))
+  importInput.addEventListener('change', async () => {
+    const file = importInput.files?.[0]
+    if (!file) return
+    try {
+      const imported = await readStateFromFile(file)
+      Object.assign(state, imported)
+      orientationSelect.value = state.selectedOrientation
+      persistAndRender()
+    } catch {
+      window.alert('Fichier JSON invalide.')
+    } finally {
+      importInput.value = ''
+    }
+  })
 
   orientationSelect.innerHTML = ORIENTATIONS.map(
     (o) => `<option value="${o.id}">${escapeHtml(o.name)}</option>`,
@@ -237,4 +262,28 @@ function examMessage(required: number | null, target: number): string {
     return `<strong>≥ 6,00</strong><span class="result-help">Objectif ${target.toFixed(2)} difficile : examen proche du maximum.</span>`
   }
   return `<strong>${required.toFixed(2)}/6 à l'examen</strong><span class="result-help">pour atteindre ${target.toFixed(2)} dans l'unité.</span>`
+}
+
+function exportJson(state: CalculatorState): void {
+  const payload: import('./types').ExportPayload = {
+    exportedAt: new Date().toISOString(),
+    scale: 6,
+    state,
+  }
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `notes_heigvd_${state.selectedOrientation.toLowerCase()}_${new Date().toISOString().split('T')[0]}.json`
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
+async function readStateFromFile(file: File): Promise<CalculatorState> {
+  const text = await file.text()
+  const parsed = JSON.parse(text) as { state?: CalculatorState }
+  if (!parsed || typeof parsed !== 'object' || !parsed.state) {
+    throw new Error('Payload invalide')
+  }
+  return parsed.state
 }
