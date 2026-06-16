@@ -685,27 +685,27 @@ h2 {
   color: var(--text-strong);
 }
 
+/* Vue par semestre. Les classes .semester-grid/.semester-column/.semester-header/
+   .course-list/.course-item sont déjà définies (et thémées) plus haut ; on n'ajoute
+   ici que les nouveautés, en réutilisant les variables de thème. */
 .semester-view { display: flex; flex-direction: column; gap: 1rem; }
-.semester-grid { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-.semester-column { border: 1px solid #2a2a3a; border-radius: 8px; padding: 0.5rem; min-width: 7rem; }
-.semester-column.active { border-color: #6366f1; box-shadow: 0 0 0 1px #6366f1; }
-.semester-header { width: 100%; background: transparent; color: inherit; border: 0; font-weight: 600; cursor: pointer; padding: 0.25rem; }
-.course-list { display: flex; flex-direction: column; gap: 0.25rem; margin-top: 0.5rem; }
-.course-item { background: #1f1f2e; color: inherit; border: 1px solid #2a2a3a; border-radius: 6px; padding: 0.25rem 0.5rem; cursor: pointer; text-align: left; }
+.semester-column.active { box-shadow: 0 0 0 2px var(--accent); border-radius: 12px; }
 .course-item.validated { border-color: #16a34a; }
-.course-item.failed { border-color: #dc2626; }
+.course-item.failed { border-color: var(--danger); }
 .module-panel { margin-bottom: 0.75rem; }
-.module-meta { display: inline-flex; align-items: center; gap: 0.5rem; }
-.badge { font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 999px; }
-.badge-reussi { background: #14532d; color: #bbf7d0; }
-.badge-echec { background: #7f1d1d; color: #fecaca; }
-.badge-incomplet { background: #334155; color: #cbd5e1; }
-.unit-card { border-top: 1px solid #2a2a3a; padding: 0.75rem 0; }
-.unit-title { display: flex; justify-content: space-between; font-weight: 600; }
+.module-meta { display: inline-flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.module-grade { color: var(--text-strong); }
+.ects { color: var(--muted); font-size: 0.85rem; }
+.badge { font-size: 0.75rem; padding: 0.1rem 0.5rem; border-radius: 999px; font-weight: 700; }
+.badge-reussi { background: rgba(22, 163, 74, 0.16); color: #16a34a; }
+.badge-echec { background: rgba(180, 35, 24, 0.16); color: var(--danger); }
+.badge-incomplet { background: var(--border-strong); color: var(--muted); }
+.unit-card { border-top: 1px solid var(--border); padding: 0.75rem 0; }
+.unit-title { display: flex; justify-content: space-between; gap: 0.5rem; font-weight: 600; }
 .unit-fields { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.5rem; }
 .unit-fields .field { min-width: 8rem; }
-.exam-hint { margin-top: 0.5rem; padding: 0.5rem; background: #1a1a28; border-radius: 8px; display: flex; flex-direction: column; gap: 0.25rem; }
-.exam-result strong { color: #a5b4fc; }
-.unit-range { color: #94a3b8; font-size: 0.85rem; margin: 0; }
-.result-help { color: #94a3b8; font-size: 0.85rem; display: block; }
+.exam-hint { margin-top: 0.5rem; padding: 0.75rem; background: var(--bg-alt); border: 1px solid var(--border); border-radius: 12px; display: flex; flex-direction: column; gap: 0.4rem; }
+.exam-result strong { color: var(--accent); }
+.unit-range { color: var(--muted); font-size: 0.85rem; margin: 0; }
+.result-help { color: var(--muted); font-size: 0.85rem; display: block; }
 .orientation-field { max-width: 22rem; }
