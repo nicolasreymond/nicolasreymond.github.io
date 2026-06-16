@@ -11,7 +11,7 @@ import {
   moduleStatus,
   semesterAverage,
 } from './calculator'
-import { getModuleById } from './curriculum'
+import { getModuleById, getModulesForOrientation, getSemestersForOrientation } from './curriculum'
 import type { Module } from './types'
 
 const CAS = getModuleById('ISCS', 'CAS') as Module
@@ -127,5 +127,24 @@ describe('semesterAverage', () => {
   })
   it('retourne null si aucun module complet', () => {
     expect(semesterAverage([CAS], { CRY: { cours: 5 } })).toBeNull()
+  })
+})
+
+describe('orientation ISCL', () => {
+  it('expose des modules et va jusqu au S8', () => {
+    expect(getModulesForOrientation('ISCL').length).toBeGreaterThan(0)
+    expect(getSemestersForOrientation('ISCL')).toContain('S8')
+  })
+  it('modélise les unités sans descriptif en note finale unique (sans examen)', () => {
+    const SLD = getModuleById('ISCL', 'SLD') as Module
+    const ISD = SLD.units.find((u) => u.id === 'ISD')!
+    expect(ISD.hasExam).toBe(false)
+    expect(ISD.components).toHaveLength(1)
+    expect(unitGrade(ISD, { cours: 5 })).toBeCloseTo(5, 5)
+  })
+  it('conserve la formule exacte connue de SDD (cours 0.67 / labo 0.33)', () => {
+    const SDD = getModuleById('ISCL', 'SDD') as Module
+    const MAC = SDD.units.find((u) => u.id === 'MAC')!
+    expect(unitGrade(MAC, { cours: 6, labo: 3 })).toBeCloseTo(0.67 * 6 + 0.33 * 3, 5)
   })
 })

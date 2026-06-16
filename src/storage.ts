@@ -2,8 +2,8 @@ import type { CalculatorState, ComponentKey, OrientationId, SemesterId, UnitGrad
 
 const STORAGE_KEY = 'heigvdGradeCalculatorState_v2'
 
-const ORIENTATIONS: OrientationId[] = ['ISCS']
-const SEMESTERS: SemesterId[] = ['S1', 'S2', 'E2', 'S3', 'S4', 'E3', 'S5', 'S6']
+const ORIENTATIONS: OrientationId[] = ['ISCS', 'ISCL']
+const SEMESTERS: SemesterId[] = ['S1', 'S2', 'E2', 'S3', 'S4', 'E3', 'S5', 'S6', 'S7', 'S8']
 const COMPONENT_KEYS: ComponentKey[] = ['cours', 'labo', 'examen', 'projet']
 
 function defaultState(): CalculatorState {

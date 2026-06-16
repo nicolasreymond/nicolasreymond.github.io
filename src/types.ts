@@ -1,8 +1,8 @@
 export type ComponentKey = 'cours' | 'labo' | 'examen' | 'projet'
 
-export type SemesterId = 'S1' | 'S2' | 'E2' | 'S3' | 'S4' | 'E3' | 'S5' | 'S6'
+export type SemesterId = 'S1' | 'S2' | 'E2' | 'S3' | 'S4' | 'E3' | 'S5' | 'S6' | 'S7' | 'S8'
 
-export type OrientationId = 'ISCS'
+export type OrientationId = 'ISCS' | 'ISCL'
 
 export type ModuleStatus = 'reussi' | 'echec' | 'incomplet'
 
