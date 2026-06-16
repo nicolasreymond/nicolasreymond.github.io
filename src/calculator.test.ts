@@ -60,6 +60,14 @@ describe('requiredExamGrade', () => {
   it('retourne null pour une unité sans examen', () => {
     expect(requiredExamGrade(ASM, { cours: 4, labo: 4 }, 4)).toBeNull()
   })
+  it('retourne une valeur > 6 quand l objectif est impossible', () => {
+    // continu SLH = 0.25*1 + 0.25*1 = 0.5 ; (6 - 0.5)/0.5 = 11 > 6
+    expect(requiredExamGrade(SLH, { cours: 1, labo: 1 }, 6)).toBeCloseTo(11, 5)
+  })
+  it('retourne une valeur <= 0 quand l objectif est déjà atteint', () => {
+    // continu SLH = 0.25*6 + 0.25*6 = 3 ; (2 - 3)/0.5 = -2
+    expect(requiredExamGrade(SLH, { cours: 6, labo: 6 }, 2)).toBeCloseTo(-2, 5)
+  })
 })
 
 describe('projectedUnitGrade', () => {

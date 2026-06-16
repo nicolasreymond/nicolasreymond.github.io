@@ -42,13 +42,18 @@ export function unitGrade(unit: Unit, grades: UnitGrades): number | null {
   return clampGrade(sum)
 }
 
-/** Note d'examen à viser pour atteindre `target`. null si pas d'examen ou continu incomplet. */
+/**
+ * Note d'examen à viser pour atteindre `target`. null si pas d'examen ou continu
+ * incomplet. La valeur n'est PAS bornée : elle peut être < 0 (objectif déjà
+ * atteint sans examen) ou > 6 (objectif impossible même avec un examen parfait),
+ * ce qui permet à l'appelant de distinguer ces cas.
+ */
 export function requiredExamGrade(unit: Unit, grades: UnitGrades, target: number): number | null {
   const weight = examWeight(unit)
   if (weight <= 0) return null
   const continuous = continuousContribution(unit, grades)
   if (continuous === null) return null
-  return clampGrade((target - continuous) / weight)
+  return (target - continuous) / weight
 }
 
 /** Note finale prévue avec une hypothèse d'examen. null si continu incomplet. */
