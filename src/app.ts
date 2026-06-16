@@ -175,6 +175,8 @@ function renderModule(module: Module, state: CalculatorState, updaters: Updater[
     badgeEl.className = `badge badge-${status}`
     badgeEl.textContent = statusLabel(status)
     gradeEl.textContent = formatGrade(moduleGrade(module, state.gradesByUnit))
+    section.classList.toggle('module-reussi', status === 'reussi')
+    section.classList.toggle('module-echec', status === 'echec')
   })
 
   if (module.units.length === 0) {
